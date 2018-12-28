@@ -25,7 +25,7 @@ func init() {
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 	pflag.Parse()
 	viper.BindPFlags(pflag.CommandLine)
-	viper.SetConfigName("narcotk-shodanscan")
+	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
 	if err != nil {
