@@ -59,36 +59,15 @@ func main() {
 
 	for _, specifichost := range myhosts {
 		log.Println("Starting:", specifichost)
-		//log.Println("--------")
-		//log.Println("Checking: ", specifichost)
 		dns, err := client.GetDNSResolve(context.Background(), []string{specifichost})
 		if err != nil {
 			log.Println("Error found when doing forward lookup")
-			//log.Panic(err)
 		} else {
-			//log.Println("Host:", specifichost, " FORWARD:", dns[specifichost])
-			//ipv4Addr, ipv4Net, err := net.ParseCIDR(dns[specifichost])
-			//var mynetworkips net.IP = dns[specifichost]
-			//mystringip := Key(dns[specifichost])
-			//mynetip := net.ParseIP(mystringip)
-			//myips = append(myips, mynetip)
-			//log.Println("myips = ", myips)
-			//var mytempip net.IP
-			//mytempip = *dns[specifichost]
-
-			//reverselookup, err := client.GetDNSReverse(context.Background(), []net.IP{dns[specifichost]})
-
-			//log.Println("before")
 			var myforward string
 
 			if dns[specifichost].String() == "" {
 				log.Println("stuff is nil")
 			}
-			//log.Println("after")
-
-			//if myforward == "" {
-			//	myforward = "BLANK"
-			//}
 
 			myforward = dns[specifichost].String()
 
@@ -97,18 +76,6 @@ func main() {
 			if err != nil {
 				log.Panic(err)
 			} else {
-				//log.Println("HOST:", specifichost, " FORWARD:", dns[specifichost], " REVERSE:", reverselookup[dns[specifichost]])
-				// WORKING: log.Println("HOST:", specifichost, " FORWARD:", dns[specifichost], " REVERSE:", reverselookup[KeyString(*dns[specifichost])])
-				//log.Println("HOST:", specifichost, " FORWARD:", dns[specifichost], " REVERSE:", reverselookup[KeyString(*dns[specifichost])])
-
-				//var myforward string = dns[specifichost].String()
-				//
-				//if myforward == "" {
-				//	myforward = "BLANK"
-				//}
-
-				//var myreverse string = reverselookup[dns[specifichost].String()]
-				//log.Println("HOST:", specifichost, " FORWARD:", dns[specifichost], " REVERSE:", reverselookup[dns[specifichost].String()])
 				log.Println("HOST:", specifichost, "FORWARD:", myforward, "REVERSE:", reverselookup[dns[specifichost].String()])
 
 				hostdetails, err := client.GetServicesForHost(context.Background(), myforward, &myhostservices)
@@ -126,11 +93,5 @@ func main() {
 			}
 
 		}
-		//log.Println("========")
 	}
-}
-
-func KeyString(ip net.IP) string {
-	//fmt.Printf("=", string(ip.String()), "=")
-	return string(ip.String()) // Simple []byte => string conversion
 }
