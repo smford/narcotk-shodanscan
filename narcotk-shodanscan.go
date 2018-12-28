@@ -35,8 +35,6 @@ func init() {
 		viewdnstoken = viper.GetString("ViewDNSToken")
 		log.Println("ShodanToken:", shodantoken)
 		log.Println("ViewDNSToken:", viewdnstoken)
-		shodantoken = viper.GetString("ShodanToken")
-		viewdnstoken = viper.GetString("ViewDNSToken")
 	}
 }
 
