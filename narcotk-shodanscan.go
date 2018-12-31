@@ -51,9 +51,9 @@ func main() {
 		log.Println("Current IP: ", myip)
 	}
 
-	myhosts = append(myhosts, "narco.tk")
-	myhosts = append(myhosts, "stephenford.org")
-	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "stephenford.org", "bleh.co.nz", "ftp.geek.nz")
+	//myhosts = append(myhosts, "narco.tk")
+	//myhosts = append(myhosts, "stephenford.org")
+	myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "stephenford.org", "bleh.co.nz", "ftp.geek.nz")
 	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "bleh.co.nz", "ftp.geek.nz")
 	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk")
 	log.Println("Checking Hosts:", myhosts)
@@ -105,7 +105,7 @@ func main() {
 				hostdetails, err := client.GetServicesForHost(context.Background(), myforward, &myhostservices)
 
 				if err != nil {
-					log.Println("HOST:", specifichost, "ERROR WHEN ATTEMPTING TO SCAN", specifichost, "on ", myforward, ":", err)
+					log.Println("HOST:", specifichost, "WARN:", err)
 				} else {
 					log.Println("HOST:", specifichost, "OpenPorts:", hostdetails.Ports)
 					log.Println("HOST:", specifichost, "Vulnerabilities:", hostdetails.Vulnerabilities)
