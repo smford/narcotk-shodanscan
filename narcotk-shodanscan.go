@@ -64,17 +64,19 @@ func main() {
 		log.Println("Starting:", specifichost)
 		log.Println("before resolution")
 		dns, err := client.GetDNSResolve(context.Background(), []string{specifichost})
+		log.Println("error=", err)
 		log.Println("after resolution")
 		if err != nil {
 			log.Println("Error found when doing forward lookup")
 		} else {
-			var myforward string
-
-			if dns[specifichost].String() == "" {
+			log.Println("before if")
+			if len(dns[specifichost].String()) == 0 {
+				log.Println("inside if")
 				log.Println("stuff is nil")
 			}
+			log.Println("after if")
 
-			myforward = dns[specifichost].String()
+			myforward := dns[specifichost].String()
 
 			reverselookup, err := client.GetDNSReverse(context.Background(), []net.IP{*dns[specifichost]})
 
