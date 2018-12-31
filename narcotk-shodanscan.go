@@ -51,8 +51,10 @@ func main() {
 		log.Println("Current IP: ", myip)
 	}
 
+	//myhosts = append(myhosts, "narco.tk")
+	myhosts = append(myhosts, "stephenford.org")
 	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "stephenford.org", "bleh.co.nz", "ftp.geek.nz")
-	myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "bleh.co.nz", "ftp.geek.nz")
+	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "bleh.co.nz", "ftp.geek.nz")
 	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk")
 	log.Println("Checking Hosts:", myhosts)
 
