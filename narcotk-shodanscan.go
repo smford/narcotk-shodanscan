@@ -51,7 +51,7 @@ func main() {
 		log.Println("Current IP: ", myip)
 	}
 
-	//myhosts = append(myhosts, "narco.tk")
+	myhosts = append(myhosts, "narco.tk")
 	myhosts = append(myhosts, "stephenford.org")
 	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "stephenford.org", "bleh.co.nz", "ftp.geek.nz")
 	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "bleh.co.nz", "ftp.geek.nz")
@@ -61,38 +61,46 @@ func main() {
 	var myhostservices shodan.HostServicesOptions
 
 	for _, specifichost := range myhosts {
-		log.Println("Starting:", specifichost)
-		log.Println("before resolution")
+		//log.Println("Starting:", specifichost)
 		dns, err := client.GetDNSResolve(context.Background(), []string{specifichost})
-		log.Println("error=", err)
-		log.Println("after resolution")
+
+		var myforward string
+		var reverseLookupVal string
+
 		if err != nil {
-			log.Println("Error found when doing forward lookup")
+			log.Println("ERROR doing GetDNSResolve")
+			log.Panic(err)
 		} else {
-			log.Println("before if")
-			if len(dns[specifichost].String()) == 0 {
-				log.Println("inside if")
-				log.Println("stuff is nil")
-			}
-			log.Println("after if")
 
-			myforward := dns[specifichost].String()
-
-			reverselookup, err := client.GetDNSReverse(context.Background(), []net.IP{*dns[specifichost]})
-
-			if err != nil {
-				log.Panic(err)
+			//log.Println("checking forward lookup ===========")
+			if dns[specifichost] == nil {
+				//log.Println("forward not found")
+				myforward = "NotFound-Forward"
+				reverseLookupVal = "NA"
 			} else {
-				specificHostDns := reverselookup[dns[specifichost].String()]
+				//log.Println("Forward lookup success")
+				myforward = dns[specifichost].String()
 
-				var reverseLookupVal string
-				if specificHostDns != nil {
-					reverseLookupVal = strings.Join(*specificHostDns, ",")
+				//log.Println("Starting reverse lookup")
+				reverselookup, err := client.GetDNSReverse(context.Background(), []net.IP{*dns[specifichost]})
+
+				if err != nil {
+					log.Panic(err)
 				} else {
-					reverseLookupVal = "NotFound"
-				}
+					specificHostDns := reverselookup[dns[specifichost].String()]
 
-				log.Println("HOST:", specifichost, "FORWARD:", myforward, "REVERSE:", reverseLookupVal)
+					//var reverseLookupVal string
+					if specificHostDns != nil {
+						reverseLookupVal = strings.Join(*specificHostDns, ",")
+					} else {
+						reverseLookupVal = "NotFound-Reverse"
+					}
+				}
+			}
+
+			log.Println("HOST:", specifichost, "FORWARD:", myforward, "REVERSE:", reverseLookupVal)
+
+			if dns[specifichost] != nil {
 
 				hostdetails, err := client.GetServicesForHost(context.Background(), myforward, &myhostservices)
 
@@ -106,8 +114,9 @@ func main() {
 					log.Println("HOST:", specifichost, "OS:", hostdetails.OS)
 					log.Println("HOST:", specifichost, "Hostnames:", hostdetails.Hostnames)
 				}
+			} else {
+				log.Println("HOST:", specifichost, "WARN: Host details skipped, host not resolvable")
 			}
-
 		}
 	}
 }
