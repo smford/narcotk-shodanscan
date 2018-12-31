@@ -10,6 +10,7 @@ import (
 	//"fmt"
 	"log"
 	"net"
+	"strings"
 
 	"gopkg.in/ns3777k/go-shodan.v3/shodan"
 )
@@ -59,7 +60,9 @@ func main() {
 
 	for _, specifichost := range myhosts {
 		log.Println("Starting:", specifichost)
+		log.Println("before resolution")
 		dns, err := client.GetDNSResolve(context.Background(), []string{specifichost})
+		log.Println("after resolution")
 		if err != nil {
 			log.Println("Error found when doing forward lookup")
 		} else {
@@ -76,7 +79,16 @@ func main() {
 			if err != nil {
 				log.Panic(err)
 			} else {
-				log.Println("HOST:", specifichost, "FORWARD:", myforward, "REVERSE:", reverselookup[dns[specifichost].String()])
+				specificHostDns := reverselookup[dns[specifichost].String()]
+
+				var reverseLookupVal string
+				if specificHostDns != nil {
+					reverseLookupVal = strings.Join(*specificHostDns, ",")
+				} else {
+					reverseLookupVal = "NotFound"
+				}
+
+				log.Println("HOST:", specifichost, "FORWARD:", myforward, "REVERSE:", reverseLookupVal)
 
 				hostdetails, err := client.GetServicesForHost(context.Background(), myforward, &myhostservices)
 
