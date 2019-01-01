@@ -1,0 +1,6 @@
+ShodanToken: myApiTokenFromShodan 
+ViewDNSToken: myApiTokenFromViewDNS
+Hosts:
+- my.secret.hostname.com 
+- somedomain.com 
+- google.com 
