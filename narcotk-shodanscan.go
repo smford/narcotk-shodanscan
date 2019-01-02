@@ -57,11 +57,6 @@ func init() {
 }
 
 func main() {
-	log.Println("start---------------------")
-	for _, confighost := range viper.GetStringSlice("Hosts") {
-		log.Println("host=", confighost)
-	}
-
 	// Start up a connection to shodan
 	client := shodan.NewClient(nil, shodantoken)
 
