@@ -17,6 +17,8 @@ import (
 	"gopkg.in/ns3777k/go-shodan.v3/shodan"
 )
 
+const appversion = 0.01
+
 var myhosts []string
 var shodantoken string
 var viewdnstoken string
@@ -46,6 +48,11 @@ func init() {
 			shodantoken = viper.GetString("SHODAN")
 			viewdnstoken = viper.GetString("VIEWDNS")
 		}
+	}
+
+	if viper.GetBool("version") {
+		fmt.Println(appversion)
+		os.Exit(0)
 	}
 
 	if viper.GetBool("displayconfig") {
