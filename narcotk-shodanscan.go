@@ -48,25 +48,10 @@ func init() {
 		}
 	}
 
-	allmysettings := viper.AllSettings()
-
 	if viper.GetBool("displayconfig") {
-		var keys []string
-		for k := range allmysettings {
-			keys = append(keys, k)
-		}
-
-		sort.Strings(keys)
-
-		log.Println("Configuration:")
-
-		for _, k := range keys {
-			fmt.Println("CONFIG:", k, ":", allmysettings[k])
-		}
-
+		displayConfig()
 		os.Exit(0)
 	}
-
 }
 
 func main() {
@@ -139,5 +124,18 @@ func main() {
 				log.Println("HOST:", specifichost, "WARN: Host details skipped, host not resolvable")
 			}
 		}
+	}
+}
+
+func displayConfig() {
+	allmysettings := viper.AllSettings()
+	var keys []string
+	for k := range allmysettings {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	log.Println("Configuration:")
+	for _, k := range keys {
+		fmt.Println("CONFIG:", k, ":", allmysettings[k])
 	}
 }
