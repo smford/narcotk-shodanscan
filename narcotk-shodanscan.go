@@ -26,8 +26,9 @@ var viewdnstoken string
 var myips []net.IP
 
 func init() {
-	flag.Bool("version", false, "display version information")
 	flag.Bool("displayconfig", false, "display configuration")
+	flag.String("scan", "", "host(s) to scan")
+	flag.Bool("version", false, "display version information")
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 	pflag.Parse()
 	viper.BindPFlags(pflag.CommandLine)
@@ -48,6 +49,13 @@ func init() {
 			shodantoken = viper.GetString("SHODAN")
 			viewdnstoken = viper.GetString("VIEWDNS")
 		}
+
+		if len(viper.GetString("scan")) != 0 {
+			myhosts = append(myhosts, strings.Split(viper.GetString("scan"), ",")...)
+		} else {
+			myhosts = viper.GetStringSlice("Hosts")
+		}
+
 	}
 
 	if viper.GetBool("version") {
@@ -72,8 +80,6 @@ func main() {
 	} else {
 		log.Println("Current IP: ", myip)
 	}
-
-	myhosts = viper.GetStringSlice("Hosts")
 
 	log.Println("Checking Hosts:", myhosts)
 
