@@ -5,11 +5,13 @@ import (
 	_ "encoding/json"
 	_ "errors"
 	"flag"
+	"fmt"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"log"
 	"net"
 	"os"
+	"sort"
 	"strings"
 
 	"gopkg.in/ns3777k/go-shodan.v3/shodan"
@@ -46,11 +48,22 @@ func init() {
 		}
 	}
 
+	allmysettings := viper.AllSettings()
+
 	if viper.GetBool("displayconfig") {
-		log.Println("Configuration:")
-		for key, value := range viper.AllSettings() {
-			log.Println(key, ":", value)
+		var keys []string
+		for k := range allmysettings {
+			keys = append(keys, k)
 		}
+
+		sort.Strings(keys)
+
+		log.Println("Configuration:")
+
+		for _, k := range keys {
+			fmt.Println("CONFIG:", k, ":", allmysettings[k])
+		}
+
 		os.Exit(0)
 	}
 
