@@ -120,12 +120,12 @@ func main() {
 				if err != nil {
 					log.Println("HOST:", specifichost, "WARN:", err)
 				} else {
-					log.Println("HOST:", specifichost, "OpenPorts:", hostdetails.Ports)
-					log.Println("HOST:", specifichost, "Vulnerabilities:", hostdetails.Vulnerabilities)
-					log.Println("HOST:", specifichost, "LastUpdate:", hostdetails.LastUpdate)
+					log.Println("HOST:", specifichost, "OPENPORTS:", hostdetails.Ports)
+					log.Println("HOST:", specifichost, "VULNERABILITIES:", hostdetails.Vulnerabilities)
+					log.Println("HOST:", specifichost, "LASTUPDATE:", hostdetails.LastUpdate)
 					log.Println("HOST:", specifichost, "IP:", hostdetails.IP)
 					log.Println("HOST:", specifichost, "OS:", hostdetails.OS)
-					log.Println("HOST:", specifichost, "Hostnames:", hostdetails.Hostnames)
+					log.Println("HOST:", specifichost, "HOSTNAMES:", hostdetails.Hostnames)
 				}
 			} else {
 				log.Println("HOST:", specifichost, "WARN: Host details skipped, host not resolvable")
