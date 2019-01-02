@@ -7,6 +7,7 @@ import (
 	"flag"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
+	"os"
 	//"fmt"
 	"log"
 	"net"
@@ -23,6 +24,7 @@ var myips []net.IP
 
 func init() {
 	flag.Bool("version", false, "display version information")
+	flag.Bool("displayconfig", false, "display configuration")
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 	pflag.Parse()
 	viper.BindPFlags(pflag.CommandLine)
@@ -43,16 +45,22 @@ func init() {
 			viper.SetEnvPrefix("nss")
 			viper.BindEnv("SHODAN")
 			viper.BindEnv("VIEWDNS")
-			log.Println("env shodan =", viper.Get("SHODAN"))
+			//log.Println("env shodan =", viper.Get("SHODAN"))
 			shodantoken = viper.GetString("SHODAN")
-			log.Println("env viewdns =", viper.Get("VIEWDNS"))
+			//log.Println("env viewdns =", viper.Get("VIEWDNS"))
 			viewdnstoken = viper.GetString("VIEWDNS")
-			log.Println("all settings", viper.AllSettings())
 		}
 	}
-	//log.Println(viper.GetString("Hosts"))
-	log.Println("slice", viper.GetStringSlice("Hosts"))
-	log.Println("all settings", viper.AllSettings())
+
+	if viper.GetBool("displayconfig") {
+		//log.Println("Configuration:\n", viper.AllSettings())
+		log.Println("Configuration:")
+		for key, value := range viper.AllSettings() {
+			log.Println(key, ":", value)
+		}
+		os.Exit(0)
+	}
+
 }
 
 func main() {
