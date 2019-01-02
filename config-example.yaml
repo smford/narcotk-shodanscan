@@ -1,3 +1,4 @@
+GetTokenFromEnv: false
 ShodanToken: myApiTokenFromShodan 
 ViewDNSToken: myApiTokenFromViewDNS
 Hosts:

@@ -7,6 +7,7 @@ import (
 	"flag"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
+	"os"
 	//"fmt"
 	"log"
 	"net"
@@ -32,10 +33,24 @@ func init() {
 	if err != nil {
 		log.Fatalf("ERROR loading config: ", err)
 	} else {
-		shodantoken = viper.GetString("ShodanToken")
-		viewdnstoken = viper.GetString("ViewDNSToken")
-		log.Println("ShodanToken:", shodantoken)
-		log.Println("ViewDNSToken:", viewdnstoken)
+		if viper.GetBool("GetTokenFromEnv") == false {
+			shodantoken = viper.GetString("ShodanToken")
+			viewdnstoken = viper.GetString("ViewDNSToken")
+			log.Println("ShodanToken:", shodantoken)
+			log.Println("ViewDNSToken:", viewdnstoken)
+		} else {
+			log.Println("Reading tokens from environment variables NSS_SHODAN and NSS_VIEWDNS")
+			viper.AllowEmptyEnv(true)
+			viper.SetEnvPrefix("nss")
+			viper.BindEnv("SHODAN")
+			viper.BindEnv("VIEWDNS")
+			log.Println("env shodan =", viper.Get("SHODAN"))
+			shodantoken = viper.GetString("SHODAN")
+			log.Println("env viewdns =", viper.Get("VIEWDNS"))
+			viewdnstoken = viper.GetString("VIEWDNS")
+			log.Println("all settings", viper.AllSettings())
+			os.Exit(0)
+		}
 	}
 }
 
