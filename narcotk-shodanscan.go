@@ -7,7 +7,6 @@ import (
 	"flag"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
-	"os"
 	//"fmt"
 	"log"
 	"net"
@@ -49,7 +48,6 @@ func init() {
 			log.Println("env viewdns =", viper.Get("VIEWDNS"))
 			viewdnstoken = viper.GetString("VIEWDNS")
 			log.Println("all settings", viper.AllSettings())
-			os.Exit(0)
 		}
 	}
 }
