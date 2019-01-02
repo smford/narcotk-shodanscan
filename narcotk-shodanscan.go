@@ -7,10 +7,9 @@ import (
 	"flag"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
-	"os"
-	//"fmt"
 	"log"
 	"net"
+	"os"
 	"strings"
 
 	"gopkg.in/ns3777k/go-shodan.v3/shodan"
@@ -37,23 +36,17 @@ func init() {
 		if viper.GetBool("GetTokenFromEnv") == false {
 			shodantoken = viper.GetString("ShodanToken")
 			viewdnstoken = viper.GetString("ViewDNSToken")
-			log.Println("ShodanToken:", shodantoken)
-			log.Println("ViewDNSToken:", viewdnstoken)
 		} else {
-			log.Println("Reading tokens from environment variables NSS_SHODAN and NSS_VIEWDNS")
 			viper.AllowEmptyEnv(true)
 			viper.SetEnvPrefix("nss")
 			viper.BindEnv("SHODAN")
 			viper.BindEnv("VIEWDNS")
-			//log.Println("env shodan =", viper.Get("SHODAN"))
 			shodantoken = viper.GetString("SHODAN")
-			//log.Println("env viewdns =", viper.Get("VIEWDNS"))
 			viewdnstoken = viper.GetString("VIEWDNS")
 		}
 	}
 
 	if viper.GetBool("displayconfig") {
-		//log.Println("Configuration:\n", viper.AllSettings())
 		log.Println("Configuration:")
 		for key, value := range viper.AllSettings() {
 			log.Println(key, ":", value)
@@ -82,18 +75,11 @@ func main() {
 
 	myhosts = viper.GetStringSlice("Hosts")
 
-	//myhosts = append(myhosts, "narco.tk")
-	//myhosts = append(myhosts, "stephenford.org")
-	//myhosts = append(myhosts, "narcotk.myqnapcloud.com")
-	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "stephenford.org", "bleh.co.nz", "ftp.geek.nz")
-	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "bleh.co.nz", "ftp.geek.nz")
-	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk")
 	log.Println("Checking Hosts:", myhosts)
 
 	var myhostservices shodan.HostServicesOptions
 
 	for _, specifichost := range myhosts {
-		//log.Println("Starting:", specifichost)
 		dns, err := client.GetDNSResolve(context.Background(), []string{specifichost})
 
 		var myforward string
@@ -104,16 +90,12 @@ func main() {
 			log.Panic(err)
 		} else {
 
-			//log.Println("checking forward lookup ===========")
 			if dns[specifichost] == nil {
-				//log.Println("forward not found")
 				myforward = "NotFound-Forward"
 				reverseLookupVal = "NA"
 			} else {
-				//log.Println("Forward lookup success")
 				myforward = dns[specifichost].String()
 
-				//log.Println("Starting reverse lookup")
 				reverselookup, err := client.GetDNSReverse(context.Background(), []net.IP{*dns[specifichost]})
 
 				if err != nil {
@@ -121,7 +103,6 @@ func main() {
 				} else {
 					specificHostDns := reverselookup[dns[specifichost].String()]
 
-					//var reverseLookupVal string
 					if specificHostDns != nil {
 						reverseLookupVal = strings.Join(*specificHostDns, ",")
 					} else {
