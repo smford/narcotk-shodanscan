@@ -50,9 +50,17 @@ func init() {
 			log.Println("all settings", viper.AllSettings())
 		}
 	}
+	//log.Println(viper.GetString("Hosts"))
+	log.Println("slice", viper.GetStringSlice("Hosts"))
+	log.Println("all settings", viper.AllSettings())
 }
 
 func main() {
+	log.Println("start---------------------")
+	for _, confighost := range viper.GetStringSlice("Hosts") {
+		log.Println("host=", confighost)
+	}
+
 	// Start up a connection to shodan
 	client := shodan.NewClient(nil, shodantoken)
 
@@ -64,9 +72,12 @@ func main() {
 		log.Println("Current IP: ", myip)
 	}
 
+	myhosts = viper.GetStringSlice("Hosts")
+
 	//myhosts = append(myhosts, "narco.tk")
 	//myhosts = append(myhosts, "stephenford.org")
-	myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "stephenford.org", "bleh.co.nz", "ftp.geek.nz")
+	//myhosts = append(myhosts, "narcotk.myqnapcloud.com")
+	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "stephenford.org", "bleh.co.nz", "ftp.geek.nz")
 	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk", "narco.tk", "bleh.co.nz", "ftp.geek.nz")
 	//myhosts = append(myhosts, "narcotk.myqnapcloud.com", "epilep.tk")
 	log.Println("Checking Hosts:", myhosts)
