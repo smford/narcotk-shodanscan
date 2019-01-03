@@ -1,23 +1,49 @@
 # Narcotk-shodanscan
 
-A simple app that will grab a shodan scan of your IP and save the results in a database.
+A simple app that will run a shodan scan of a host and report back the results.
 
-It can also alert you via syslog, pushover, twitter or email if there is any change.
+It is useful to run as a cronjob to discern whether there have been any unexpected changes or new vulnerabilities that effect your systems.
 
-You will need to sign up for a [shodan.io](https://www.shodan.io/) account and get an API key which is free.
+Written in Go, so can run happily in linux, Windows or OSX.
+
+## Requirements
+
+You will need to sign up (free) for [shodan.io](https://www.shodan.io/) and [viewdns.info](https://viewdns.info/api/#register) accounts to get an API keys.
+
+
+## Features
+
+- Forward lookups
+- Reverse lookups
+- Vulnerabilities detected with CVE reporting
+- External IP reporting
+- Discovered open ports
+- OS
+- Other known hostnames that resolve to that IP
+
+## Coming Features
+
+- Unexpected change detection and alerting
+- Integration with syslog
+- Alerting via twitter, pushover, email, etc
+- Results being saved to a database
+- DNS propogation checking
+- Spam database inclusion
+- Print all dns records
+
 
 ## Usage
 
 1. Run a scan using current IP address:
   
   ```
-  # ./narcotk-shodanscan --api myapikey
+  # ./narcotk-shodanscan --current
   ```
 
-1. Run a scan using a specific IP address:
+1. Run a scan against specific hosts:
 
   ```
-  # ./narcotk-shodanscan --api myapikey --ip 123.123.123.123
+  # ./narcotk-shodanscan --scan www.host1.com,host2.net,123.123.123.123
   ```
 
 ## Installation
@@ -41,3 +67,16 @@ Requirements:
 
 
 ## Configuration File
+
+File: config.yaml
+
+```
+GetTokenFromEnv: false
+ShodanToken: myApiTokenFromShodan
+ViewDNSToken: myApiTokenFromViewDNS
+Hosts:
+- my.secret.hostname.com
+- somedomain.com
+- google.com
+
+```
