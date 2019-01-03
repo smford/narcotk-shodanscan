@@ -26,6 +26,8 @@ var viewdnstoken string
 var myips []net.IP
 
 func init() {
+	configFile := flag.String("config", "", "name of configuration file")
+	configFilePath := flag.String("configpath", "", "path to configuration file")
 	flag.Bool("current", false, "scan current visibly external IP")
 	flag.Bool("displayconfig", false, "display configuration")
 	flag.Bool("help", false, "display help")
@@ -34,8 +36,19 @@ func init() {
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 	pflag.Parse()
 	viper.BindPFlags(pflag.CommandLine)
-	viper.SetConfigName("config")
-	viper.AddConfigPath(".")
+
+	if *configFilePath == "" {
+		viper.AddConfigPath(".")
+	} else {
+		viper.AddConfigPath(*configFilePath)
+	}
+
+	if *configFile == "" {
+		viper.SetConfigName("config")
+	} else {
+		viper.SetConfigName(*configFile)
+	}
+
 	err := viper.ReadInConfig()
 
 	if err != nil {
@@ -167,6 +180,8 @@ func displayConfig() {
 }
 
 func displayHelp() {
+	fmt.Println("--config                            Configuration file --config myconfig.yaml")
+	fmt.Println("--configpath                        Path to configuration file --configpath /path/to")
 	fmt.Println("--current                           Scan current externally visible IP")
 	fmt.Println("--displayconfig                     Display configuration")
 	fmt.Println("--scan                              Scan these hosts --scan host1.com,host2.com,8.8.8.8")
