@@ -27,6 +27,7 @@ var myips []net.IP
 
 func init() {
 	flag.Bool("displayconfig", false, "display configuration")
+	flag.Bool("help", false, "display help")
 	flag.String("scan", "", "host(s) to scan")
 	flag.Bool("version", false, "display version information")
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
@@ -56,6 +57,11 @@ func init() {
 			myhosts = viper.GetStringSlice("Hosts")
 		}
 
+	}
+
+	if viper.GetBool("help") {
+		displayHelp()
+		os.Exit(0)
 	}
 
 	if viper.GetBool("version") {
@@ -151,4 +157,11 @@ func displayConfig() {
 	for _, k := range keys {
 		fmt.Println("CONFIG:", k, ":", allmysettings[k])
 	}
+}
+
+func displayHelp() {
+	fmt.Println("--current                           Scan current externally visible IP")
+	fmt.Println("--displayconfig                     Display configuration")
+	fmt.Println("--scan                              Scan these hosts --scan host1.com,host2.com,8.8.8.8")
+	fmt.Println("--version                           Version")
 }
