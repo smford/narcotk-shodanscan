@@ -26,6 +26,7 @@ var viewdnstoken string
 var myips []net.IP
 
 func init() {
+	flag.Bool("current", false, "scan current visibly external IP")
 	flag.Bool("displayconfig", false, "display configuration")
 	flag.Bool("help", false, "display help")
 	flag.String("scan", "", "host(s) to scan")
@@ -36,6 +37,7 @@ func init() {
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
+
 	if err != nil {
 		log.Fatalf("ERROR loading config: ", err)
 	} else {
@@ -85,6 +87,11 @@ func main() {
 		log.Panic(err)
 	} else {
 		log.Println("Current IP: ", myip)
+	}
+
+	if viper.GetBool("current") {
+		myhosts = nil
+		myhosts = append(myhosts, myip.String())
 	}
 
 	log.Println("Checking Hosts:", myhosts)
