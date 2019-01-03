@@ -167,13 +167,13 @@ func main() {
 }
 
 func displayConfig() {
+	fmt.Println("CONFIG: file :", viper.ConfigFileUsed())
 	allmysettings := viper.AllSettings()
 	var keys []string
 	for k := range allmysettings {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
-	log.Println("Configuration:")
 	for _, k := range keys {
 		fmt.Println("CONFIG:", k, ":", allmysettings[k])
 	}
