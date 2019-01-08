@@ -21,7 +21,6 @@ const appversion = 0.01
 
 var myhosts []string
 var shodantoken string
-var viewdnstoken string
 
 var myips []net.IP
 
@@ -56,14 +55,12 @@ func init() {
 	} else {
 		if viper.GetBool("GetTokenFromEnv") == false {
 			shodantoken = viper.GetString("ShodanToken")
-			viewdnstoken = viper.GetString("ViewDNSToken")
 		} else {
 			viper.AllowEmptyEnv(true)
 			viper.SetEnvPrefix("nss")
 			viper.BindEnv("SHODAN")
 			viper.BindEnv("VIEWDNS")
 			shodantoken = viper.GetString("SHODAN")
-			viewdnstoken = viper.GetString("VIEWDNS")
 		}
 
 		if len(viper.GetString("scan")) != 0 {

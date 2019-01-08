@@ -8,7 +8,7 @@ Written in Go, so can run happily in linux, Windows or OSX.
 
 ## Requirements
 
-You will need to sign up (free) for [shodan.io](https://www.shodan.io/) and [viewdns.info](https://viewdns.info/api/#register) accounts to get an API keys.
+You will need to sign up (free) for a [shodan.io](https://www.shodan.io/) account and get an API key.
 
 
 ## Features
@@ -27,9 +27,6 @@ You will need to sign up (free) for [shodan.io](https://www.shodan.io/) and [vie
 - Integration with syslog
 - Alerting via twitter, pushover, email, etc
 - Results being saved to a database
-- DNS propogation checking
-- Spam database inclusion
-- Print all dns records
 
 
 ## Usage
@@ -73,7 +70,6 @@ File: config.yaml
 ```
 GetTokenFromEnv: false
 ShodanToken: myApiTokenFromShodan
-ViewDNSToken: myApiTokenFromViewDNS
 Hosts:
 - my.secret.hostname.com
 - somedomain.com
