@@ -1,5 +1,6 @@
 GetTokenFromEnv: false
 ShodanToken: myApiTokenFromShodan 
+Links: false
 Hosts:
 - my.secret.hostname.com 
 - somedomain.com 

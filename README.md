@@ -43,6 +43,18 @@ You will need to sign up (free) for a [shodan.io](https://www.shodan.io/) accoun
   # ./narcotk-shodanscan --scan www.host1.com,host2.net,123.123.123.123
   ```
 
+## Command Line Usage
+
+  | Command | Description | Example |
+  |:--|:--|:--|
+  | `--config` | Configuration file | --config myconfig.yaml |
+  | `--configpath` | Path to configuration file | --configpath /path/to |
+  | `--current` | Scan current externally visible IP | --current |
+  | `--help` | Display help information | --help |
+  | `--links` | Display CVE links | --links |
+  | `--scan` | Scan these hosts | --scan host1.com,host2.com,8.8.8.8 |
+  | `--version` | Display version | --version |
+
 ## Installation
 
 ### From Docker
@@ -70,6 +82,7 @@ File: config.yaml
 ```
 GetTokenFromEnv: false
 ShodanToken: myApiTokenFromShodan
+Links: false
 Hosts:
 - my.secret.hostname.com
 - somedomain.com

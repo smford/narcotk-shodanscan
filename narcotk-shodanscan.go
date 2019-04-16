@@ -29,6 +29,7 @@ func init() {
 	configFilePath := flag.String("configpath", "", "path to configuration file")
 	flag.Bool("current", false, "scan current visibly external IP")
 	flag.Bool("displayconfig", false, "display configuration")
+	flag.Bool("links", false, "display CVE links")
 	flag.Bool("help", false, "display help")
 	flag.String("scan", "", "host(s) to scan")
 	flag.Bool("version", false, "display version information")
@@ -150,7 +151,13 @@ func main() {
 					log.Println("HOST:", specifichost, "WARN:", err)
 				} else {
 					log.Println("HOST:", specifichost, "OPENPORTS:", hostdetails.Ports)
-					log.Println("HOST:", specifichost, "VULNERABILITIES:", hostdetails.Vulnerabilities)
+					if viper.GetBool("links") {
+						for _, cve := range hostdetails.Vulnerabilities {
+							log.Printf("HOST: %s VULNERABILITY: %s LINK: http://cve.mitre.org/cgi-bin/cvename.cgi?name=%s\n", specifichost, cve, cve)
+						}
+					} else {
+						log.Println("HOST:", specifichost, "VULNERABILITIES:", hostdetails.Vulnerabilities)
+					}
 					log.Println("HOST:", specifichost, "LASTUPDATE:", hostdetails.LastUpdate)
 					log.Println("HOST:", specifichost, "IP:", hostdetails.IP)
 					log.Println("HOST:", specifichost, "OS:", hostdetails.OS)
@@ -181,6 +188,7 @@ func displayHelp() {
 	fmt.Println("--configpath                        Path to configuration file --configpath /path/to")
 	fmt.Println("--current                           Scan current externally visible IP")
 	fmt.Println("--displayconfig                     Display configuration")
+	fmt.Println("--links                             Display CVE links")
 	fmt.Println("--scan                              Scan these hosts --scan host1.com,host2.com,8.8.8.8")
 	fmt.Println("--version                           Version")
 }
