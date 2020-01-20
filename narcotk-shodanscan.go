@@ -14,7 +14,7 @@ import (
 	"sort"
 	"strings"
 
-	"gopkg.in/ns3777k/go-shodan.v3/shodan"
+	"github.com/ns3777k/go-shodan/v4/shodan"
 )
 
 const appversion = 0.01
